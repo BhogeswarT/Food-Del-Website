@@ -16,7 +16,7 @@ const addFood = async(req,res) => {
 
     try {
         await food.save();   // saving food details in database
-        res.json({success:true,message:"Food Added"})
+        res.json({success:true,message:"Food item Added"})
     } catch (error) {
         console.log(error)
         res.json({success:false, message:"Error"})
@@ -41,7 +41,7 @@ const removeFood = async (req,res) =>{
      fs.unlink(`uploads/${food.image}`,()=>{})  //food item is removed from folder
 
      await foodModel.findByIdAndDelete(req.body.id);  // removing food item from database
-     res.json({success:true,message:"Food removed"})
+     res.json({success:true,message:"Food item is removed"})
 
    } catch (error) {
      console.log(error);
