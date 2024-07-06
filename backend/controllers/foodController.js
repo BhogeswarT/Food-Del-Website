@@ -1,3 +1,5 @@
+//modifying food items details in database  which is used by admin
+
 import foodModel from "../models/foodModel.js";
 import fs from 'fs'  //importing file system
 
