@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import './List.css'
-import axios from "axios"
-import { toast } from 'react-toastify'
+import { url, currency } from '../../assets/assets.js'
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-
-const List = ({url}) => {
+const List = () => {
 
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
-    const response = await axios.get(`${url}/api/food/list`);  //it is a route defined in backend, which gives response of food items data
-    // console.log(response.data);
+    const response = await axios.get(`${url}/api/food/list`)
     if (response.data.success) {
-      setList(response.data.data); //saving response in list variable
+      setList(response.data.data);
     }
     else {
-      toast.error("Error")  //notification as Error on webpage
+      toast.error("Error")
     }
   }
 
-  const removeFood = async(foodId)=>{
-    //  console.log(foodId);
-    const response = await axios.post(`${url}/api/food/remove`,{id:foodId});  //this food item is removed from database
-    await fetchList();  //reloading site again to show changes 
-    if(response.data.success){
-      toast.success(response.data.message)  //that message is response send by backend server
+  const removeFood = async (foodId) => {
+    const response = await axios.post(`${url}/api/food/remove`, {
+      id: foodId
+    })
+    await fetchList();
+    if (response.data.success) {
+      toast.success(response.data.message);
     }
-    else{
+    else {
       toast.error("Error")
     }
   }
@@ -37,8 +37,8 @@ const List = ({url}) => {
 
   return (
     <div className='list add flex-col'>
-      <p className='heading'>All Foods List</p>
-      <div className="list-table">
+      <p>All Foods List</p>
+      <div className='list-table'>
         <div className="list-table-format title">
           <b>Image</b>
           <b>Name</b>
@@ -47,14 +47,13 @@ const List = ({url}) => {
           <b>Action</b>
         </div>
         {list.map((item, index) => {
-          //displaying items list on webPage
           return (
             <div key={index} className='list-table-format'>
               <img src={`${url}/images/` + item.image} alt="" />
               <p>{item.name}</p>
               <p>{item.category}</p>
-              <p>${item.price}</p>
-              <p onClick={()=>removeFood(item._id)} className='cursor'>X</p>
+              <p>{currency}{item.price}</p>
+              <p className='cursor' onClick={() => removeFood(item._id)}>x</p>
             </div>
           )
         })}
