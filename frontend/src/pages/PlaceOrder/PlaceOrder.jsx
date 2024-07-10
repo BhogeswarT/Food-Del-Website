@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const PlaceOrder = () => {
 
@@ -52,6 +53,18 @@ const PlaceOrder = () => {
     alert("Error no payment");
   }
  }
+
+const navigate = useNavigate();
+
+ useEffect(() => {
+  if (!token) {
+      toast.error("to place an order sign in first")
+      navigate('/cart')
+  }
+  else if (getTotalCartAmount() === 0) {
+      navigate('/cart')
+  }
+}, [token])
 
 
   return (
